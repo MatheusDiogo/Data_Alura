@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from sqlalchemy import create_engine, inspect, text
+from Query_Sql import *
 
 url_itens_pedidos = 'https://github.com/alura-cursos/SQL-python-integracao/raw/main/TABELAS/itens_pedidos.csv'
 url_pedidos = 'https://github.com/alura-cursos/SQL-python-integracao/raw/main/TABELAS/pedidos.csv'
@@ -19,5 +20,7 @@ itens_pedidos.to_sql('itens_pedidos', engine, index=False)
 pedidos.to_sql('pedidos', engine, index=False)
 vendedores.to_sql('vendedores', engine, index=False)
 
-inspector = inspect(engine)
-print(inspector.get_table_names())
+query = 'SELECT CONDICAO FROM PRODUTOS'
+
+df = sql_df(query, engine)
+print(df)
