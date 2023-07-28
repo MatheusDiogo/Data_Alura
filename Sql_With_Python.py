@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from sqlalchemy import create_engine, inspect, text
 from Query_Sql import *
 
@@ -20,7 +21,11 @@ itens_pedidos.to_sql('itens_pedidos', engine, index=False)
 pedidos.to_sql('pedidos', engine, index=False)
 vendedores.to_sql('vendedores', engine, index=False)
 
-query = 'SELECT CONDICAO FROM PRODUTOS'
+query = '''SELECT CONDICAO, COUNT(*) AS 'Quantidade'
+FROM PRODUTOS 
+GROUP BY CONDICAO;'''
+df_produtos = sql_df(query, engine)
 
-df = sql_df(query, engine)
-print(df)
+plt.bar(df_produtos['Condicao'],df_produtos['Quantidade'], color='#9353FF')
+plt.title('Contagem por tipo de condições dos produtos')
+plt.show()
